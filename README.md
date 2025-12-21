@@ -50,7 +50,7 @@ wireguard-docker/
    ```
 
 5. **Используйте конфиг на устройстве**
-   - Импортируйте `clients/myclient.conf` в WireGuard-клиент
+   - Импортируйте `myclient.conf` в WireGuard-клиент
    - Или отсканируйте QR-код из терминала
 
 ---
