@@ -1,0 +1,5 @@
+ENV_TZ=<timezone>
+ENV_PROT=<port>
+ENV_PEERDNS=<dns1/dns1,dns2,...,dnsN>
+ENV_INTERNAL_SUBNET=<ip>/<mask>
+ENV_SERVER_IP=<server_ip>

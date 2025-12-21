@@ -1,0 +1,30 @@
+# Secrets and generated client configs
+clients/
+config/clients/
+config/wg_confs/
+config/server/
+config/server/privatekey-server
+config/server/publickey-server
+config/*/privatekey-*
+config/*/presharedkey-*
+
+# Temporary and system files
+*.tmp
+*~
+.DS_Store
+Thumbs.db
+
+# Logs and runtime data
+*.log
+*.csv
+*.png
+
+# Don't track the marker file
+config/.donoteditthisfile
+
+# Environment files (keep .env.example, ignore real .env)
+.env
+
+# Build artifacts (if you add custom Docker builds later)
+build/
+dist/
