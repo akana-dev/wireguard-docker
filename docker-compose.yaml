@@ -23,7 +23,7 @@ services:
       - /lib/modules:/lib/modules
     entrypoint: ["/config/scripts/setup-path.sh"]
     ports:
-      - 51820:51820/udp
+      - $ENV_SERVERPORT:$ENV_SERVERPORT/udp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.forwarding=1

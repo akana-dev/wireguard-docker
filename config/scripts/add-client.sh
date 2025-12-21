@@ -53,16 +53,29 @@ mkdir -p "$PEER_DIR" "$CLIENTS_DIR"
 
 echo "$CLIENT_PRIV_KEY" > "$PEER_DIR/privatekey-${CLIENT_NAME}"
 echo "$PRESHARED_KEY" > "$PEER_DIR/presharedkey-${CLIENT_NAME}"
-echo "$SERVER_PUB_KEY" > /config/server/publickey-server
+echo "$SERVER_PUB_KEY" > "/config/server/publickey-server"
 
 export CLIENT_IP="${CLIENT_WG_IPV4}/32${CLIENT_WG_IPV6:+,$CLIENT_WG_IPV6/128}"
 export PEER_ID="$CLIENT_NAME"
-export PEERDNS="$ENV_PEERDNS"
-export SERVERURL="$ENV_SERVERURL"
-export SERVERPORT="$SERVER_PORT"
+export PEERDNS="$PEERDNS"
+export SERVERURL="$SERVERURL"
+export SERVERPORT="$SERVERPORT"
 export ALLOWEDIPS="0.0.0.0/0,::/0"
+export CLIENT_PRIVATE_KEY="$CLIENT_PRIV_KEY"
+export SERVER_PUBLIC_KEY="$SERVER_PUB_KEY"
+export PRESHARED_KEY="$PRESHARED_KEY"
 
-CLIENT_CONFIG_CONTENT=$(envsubst < "$TEMPLATE")
+CLIENT_CONFIG_CONTENT=$(sed \
+  -e "s|\${CLIENT_IP}|$CLIENT_IP|g" \
+  -e "s|\${PEER_ID}|$PEER_ID|g" \
+  -e "s|\${PEERDNS}|$PEERDNS|g" \
+  -e "s|\${SERVERURL}|$SERVERURL|g" \
+  -e "s|\${SERVERPORT}|$SERVERPORT|g" \
+  -e "s|\${ALLOWEDIPS}|$ALLOWEDIPS|g" \
+  -e "s|\${CLIENT_PRIVATE_KEY}|$CLIENT_PRIVATE_KEY|g" \
+  -e "s|\${SERVER_PUBLIC_KEY}|$SERVER_PUBLIC_KEY|g" \
+  -e "s|\${PRESHARED_KEY}|$PRESHARED_KEY|g" \
+  "$TEMPLATE")
 
 echo "$CLIENT_CONFIG_CONTENT"
 
@@ -70,7 +83,7 @@ echo "$CLIENT_CONFIG_CONTENT" > "$CLIENTS_DIR/${CLIENT_NAME}.conf"
 
 cat >> "$WG_CONF" <<EOF
 
-### Peer $CLIENT_NAME
+### Client $CLIENT_NAME
 [Peer]
 PublicKey = $CLIENT_PUB_KEY
 PresharedKey = $PRESHARED_KEY

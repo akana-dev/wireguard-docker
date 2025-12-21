@@ -12,13 +12,10 @@ if ! grep -q "^### Client ${CLIENT_NAME}\$" "$WG_CONF"; then
   exit 1
 fi
 
-# Удаляем блок клиента
 sed -i "/^### Client ${CLIENT_NAME}\$/,/^$/d" "$WG_CONF"
 
-# Удаляем файл клиента
 rm -f "/config/clients/${CLIENT_NAME}.conf"
 
-# Обновляем интерфейс
 wg syncconf wg0 <(wg-quick strip wg0)
 wg-quick down wg0 && wg-quick up wg0
 
