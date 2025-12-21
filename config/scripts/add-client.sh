@@ -48,17 +48,14 @@ CLIENT_PRIV_KEY=$(wg genkey)
 CLIENT_PUB_KEY=$(wg pubkey <<< "$CLIENT_PRIV_KEY")
 PRESHARED_KEY=$(wg genpsk)
 
-# Создаем каталоги для клиента
 PEER_DIR="/config/${CLIENT_NAME}"
 CLIENT_FILES_DIR="$CLIENTS_DIR/${CLIENT_NAME}"
 mkdir -p "$PEER_DIR" "$CLIENTS_DIR" "$CLIENT_FILES_DIR"
 
-# Сохраняем ключи в основной директории
 echo "$CLIENT_PRIV_KEY" > "$PEER_DIR/privatekey-${CLIENT_NAME}"
 echo "$PRESHARED_KEY" > "$PEER_DIR/presharedkey-${CLIENT_NAME}"
 echo "$SERVER_PUB_KEY" > "/config/server/publickey-server"
 
-# Сохраняем ключи в клиентской директории
 echo "$CLIENT_PRIV_KEY" > "$CLIENT_FILES_DIR/privatekey-${CLIENT_NAME}"
 echo "$CLIENT_PUB_KEY" > "$CLIENT_FILES_DIR/publickey-${CLIENT_NAME}"
 echo "$PRESHARED_KEY" > "$CLIENT_FILES_DIR/presharedkey-${CLIENT_NAME}"
@@ -88,13 +85,10 @@ CLIENT_CONFIG_CONTENT=$(sed \
 
 echo "$CLIENT_CONFIG_CONTENT"
 
-# Создаем имя файла в формате wg-<ip без точек>-<peer>.conf
 IP_WITHOUT_DOTS=$(echo "$CLIENT_WG_IPV4" | tr -d '.')
 CONFIG_FILENAME="wg-${IP_WITHOUT_DOTS}-${CLIENT_NAME}.conf"
 
-# Сохраняем конфиг в клиентской директории
 echo "$CLIENT_CONFIG_CONTENT" > "$CLIENT_FILES_DIR/${CONFIG_FILENAME}"
-# Также создаем симлинк в основной директории clients для удобства
 ln -sf "$CLIENT_FILES_DIR/${CONFIG_FILENAME}" "$CLIENTS_DIR/${CONFIG_FILENAME}"
 
 cat >> "$WG_CONF" <<EOF
