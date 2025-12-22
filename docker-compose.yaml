@@ -1,7 +1,17 @@
+networks:
+  wg-public:
+    driver: bridge
+  wg-private:
+    driver: bridge
+    internal: true
+
 services:
   wireguard:
     image: linuxserver/wireguard
     container_name: wireguard-single
+    networks:
+      - wg-public
+      - wg-private
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
