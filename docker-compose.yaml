@@ -1,17 +1,14 @@
 networks:
-  wg-public:
-    driver: bridge
-  wg-private:
-    driver: bridge
-    internal: true
+  vpn:
+    external: true
+    name: vpn-network
 
 services:
   wireguard:
     image: linuxserver/wireguard
     container_name: wireguard
     networks:
-      - wg-public
-      - wg-private
+      vpn:
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
