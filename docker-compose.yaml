@@ -8,7 +8,7 @@ networks:
 services:
   wireguard:
     image: linuxserver/wireguard
-    container_name: wireguard-single
+    container_name: wireguard
     networks:
       - wg-public
       - wg-private
